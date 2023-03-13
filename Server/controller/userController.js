@@ -82,6 +82,7 @@ module.exports.donateBlood = async (req, res, next) => {
     const bloodDonation = await Donation.create({
       donor,
       bloodBank,
+      bloodBankId
     });
 
     donor.donation.push(bloodDonation);

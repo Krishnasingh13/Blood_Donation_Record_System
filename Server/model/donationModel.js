@@ -7,12 +7,18 @@ const donationSchema = new mongoose.Schema({
   donor: {
     type: Object,
   },
+
+  bloodBankId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "bloodBank",
+  },
+
   date: { type: Number, default: Date.now() },
 
   certificate: {
     type: Object,
   },
-  
+
   certificateGenerated: {
     type: Boolean,
     default: false,

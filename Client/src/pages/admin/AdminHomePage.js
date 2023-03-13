@@ -68,9 +68,9 @@ const AdminHomePage = () => {
                   <td className="text-center px-4 py-5">{index + 1}</td>
                   <td className="text-center px-4 py-5">{e?.name}</td>
                   <td className="text-center px-4 py-5">{e?.place}</td>
-                  <td className="text-center px-4 py-5">{stats?.today}</td>
-                  <td className="text-center px-4 py-5">{stats?.week}</td>
-                  <td className="text-center px-4 py-5">{stats?.month}</td>
+                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
+                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
+                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
                 </tr>
               ))}
             </tbody>

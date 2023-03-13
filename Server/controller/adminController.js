@@ -109,32 +109,17 @@ module.exports.getStats = async (req, res, next) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const todayStats = await Donation.find(bloodBankId).countDocuments({
-      date: { $gte: today },
-    });
+    const todayStats = await Donation.aggregate([
+      {
+        $match: {
+          bloodBankId: bloodBankId,
+          date: { $gte: today },
+        },
+      },
+      { $group: { _id: null, count: { $sum: 1 } } },
+    ]);
 
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    oneWeekAgo.setHours(0, 0, 0, 0);
-    const weekStats = await Donation.findOne({
-      bloodBank: bloodBankId,
-    }).countDocuments({ date: { $gte: today } });
-
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-    oneMonthAgo.setHours(0, 0, 0, 0);
-    const monthStats = await Donation.findOne({
-      bloodBank: bloodBankId,
-    }).countDocuments({ date: { $gte: today } });
-
-    const stats = {
-      today: todayStats,
-      week: weekStats,
-      month: monthStats,
-    };
-
-    console.log(bloodBanks);
-    return res.json({ status: true, stats });
+    console.log(todayStats);
   } catch (error) {
     console.log(error);
   }
