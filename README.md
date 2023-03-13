@@ -1,10 +1,12 @@
 # Blood_Donation_Record_System
 
 To run client side
+
 First command :- cd .\Client\
 Second command:- npm start
 
 To run server side
+
 First command :- cd .\Server\
 Second command:- npm start
 
