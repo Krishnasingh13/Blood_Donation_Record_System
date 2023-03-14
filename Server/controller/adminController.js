@@ -96,7 +96,62 @@ module.exports.getAllBloodBank = async (req, res, next) => {
       .populate("donation")
       .select("-password");
 
-    return res.json({ status: true, bloodBanks });
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const oneWeekAgo = new Date(today);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+    const oneMonthAgo = new Date(today);
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    async function getDonationStats() {
+      const stats = [];
+
+      for (let element of bloodBanks) {
+        const Id = element._id;
+        try {
+          const todayCount = await Donation.countDocuments({
+            bloodBankId: Id,
+            date: { $gte: today },
+          });
+
+          const weekCount = await Donation.countDocuments({
+            bloodBankId: Id,
+            date: { $gte: oneWeekAgo, $lt: today },
+          });
+
+          const monthCount = await Donation.countDocuments({
+            bloodBankId: Id,
+            date: { $gte: oneMonthAgo, $lt: today },
+          });
+
+          const newStats = {
+            bloodBankId: Id,
+            today: todayCount,
+            week: weekCount,
+            month: monthCount,
+          };
+          stats.push(newStats);
+
+          // Update bloodBank document with new stats object
+          await BloodBank.findByIdAndUpdate(Id, { $set: { stats: newStats } });
+          BloodBank.save();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      return stats;
+    }
+
+    getDonationStats()
+      .then((stats) => {
+        return res.json({ status: true, bloodBanks });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   } catch (error) {
     console.log(error);
   }
@@ -119,7 +174,7 @@ module.exports.getStats = async (req, res, next) => {
       { $group: { _id: null, count: { $sum: 1 } } },
     ]);
 
-    console.log(todayStats);
+    // console.log(todayStats);
   } catch (error) {
     console.log(error);
   }

@@ -31,6 +31,35 @@ const bloodBankSchema = new mongoose.Schema({
       ref: "donation",
     },
   ],
+  stats: {
+    type: {
+      bloodBankId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+      },
+      today: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      week: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      month: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+    },
+    default: {
+      bloodBankId: null,
+      today: 0,
+      week: 0,
+      month: 0,
+    },
+  },
 });
 
 module.exports = mongoose.model("bloodBank", bloodBankSchema);

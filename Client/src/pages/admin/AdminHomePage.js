@@ -4,31 +4,18 @@ import axios from "axios";
 
 const AdminHomePage = () => {
   const [bloodBanks, setBloodBanks] = useState([]);
-  const [stats, setStats] = useState();
 
   const fetchBloodBank = async () => {
     const data = await axios.get(
       "http://localhost:5000/api/admin/getAllBloodBank"
     );
-    console.log("data", data.data);
     setBloodBanks(data.data.bloodBanks);
-    setStats(data.data.stats);
   };
-
-  const fetchStat = async (bloodBankId)=>{
-    const data2 = await axios.get(`http://localhost:5000/api/admin/getStats/${bloodBankId}`);
-    console.log(data2);
-  }
-  
-  bloodBanks.map((e)=>{
-    fetchStat(e._id)
-  })
-
-  console.log(stats);
 
   useEffect(() => {
     fetchBloodBank();
   }, []);
+
 
   return (
     <div>
@@ -68,9 +55,9 @@ const AdminHomePage = () => {
                   <td className="text-center px-4 py-5">{index + 1}</td>
                   <td className="text-center px-4 py-5">{e?.name}</td>
                   <td className="text-center px-4 py-5">{e?.place}</td>
-                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
-                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
-                  <td className="text-center px-4 py-5">{e?.donation.length}</td>
+                  <td className="text-center px-4 py-5">{e?.stats?.today}</td>
+                  <td className="text-center px-4 py-5">{e?.stats?.week}</td>
+                  <td className="text-center px-4 py-5">{e?.stats?.month}</td>
                 </tr>
               ))}
             </tbody>
