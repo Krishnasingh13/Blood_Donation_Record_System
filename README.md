@@ -1,18 +1,21 @@
 # Blood_Donation_Record_System
 
-To run client side
+To run client side run below command in terminal 
 
 First command :- cd .\Client\
 Second command:- npm start
+After that client is running on http://localhost:3000/
 
 
-To run server side
+
+To run server side run below command in terminal 
 
 First command :- cd .\Server\
 Second command:- npm start
+After that server is running on http://localhost:5000/
 
 
-To run server add database url to .env file
+To run server add DATABASE_URL to .env file
 
 .env file
 
@@ -20,17 +23,17 @@ DATABASE_URL = mongodb://krishnasingh200113:Pxywtd1MsMwMXczx@ac-0sl6rjm-shard-00
 
 Blood Bank credential
 
-username: Rotary_Blood_Bank
+username: Rotary_Blood_Bank , 
 password : 1234567890
 
 
 Admin credential
 
-username: admin
+username: admin , 
 password : 1234567890
 
 
 Donor credential
 
-phone: 8759204890
+phone: 8759204890 , 
 password : 1234567890
